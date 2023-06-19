@@ -1,0 +1,8 @@
+.DS_Store
+.vscode
+.idea
+vendor/
+.project
+# Dependency directories
+node_modules/
+*/.DS_Store
