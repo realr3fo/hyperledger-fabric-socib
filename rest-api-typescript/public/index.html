@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Asset Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Asset Management</h1>
+
+    <form id="createAssetForm">
+        <h2>Create Asset</h2>
+        <input type="text" id="assetName" placeholder="Asset Name">
+        <br>
+        <input type="text" id="assetType" placeholder="Asset Type">
+        <br>
+        <input type="submit" value="Create">
+    </form>
+
+    <form id="transferAssetForm">
+        <h2>Transfer Asset</h2>
+        <input type="text" id="assetId" placeholder="Asset ID">
+        <br>
+        <input type="text" id="newOwner" placeholder="New Owner">
+        <br>
+        <input type="submit" value="Transfer">
+    </form>
+
+    <form id="deleteAssetForm">
+        <h2>Delete Asset</h2>
+        <input type="text" id="deleteAssetId" placeholder="Asset ID">
+        <br>
+        <input type="submit" value="Delete">
+    </form>
+
+    <h2>All Assets</h2>
+    <table id="assetTable">
+        <tr>
+            <th>Asset ID</th>
+            <th>Asset Name</th>
+            <th>Asset Type</th>
+            <th>Owner</th>
+        </tr>
+    </table>
+
+    <script>
+        // Function to fetch all assets
+        function fetchAllAssets() {
+            const apiKey = '67D55449-C1BE-42F3-9C54-5EF71DA80600';
+            fetch('/api/assets', {
+                headers: {
+                    'X-Api-Key': `${apiKey}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    const table = document.getElementById('assetTable');
+                    table.innerHTML = `
+        <tr>
+          <th>Asset ID</th>
+          <th>Asset Name</th>
+          <th>Asset Filehash</th>
+          <th>Owner</th>
+        </tr>
+      `;
+                    data.forEach(asset => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+          <td>${asset.ID}</td>
+          <td>TOTL_IBIZ_2023_05_01_1300.tuv</td>
+          <td>${asset.FileHash}</td>
+          <td>${asset.Owner}</td>
+        `;
+                        table.appendChild(row);
+                    });
+                });
+        }
+
+
+        // Function to create an asset
+        document.getElementById('createAssetForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const assetName = document.getElementById('assetName').value;
+            const assetType = document.getElementById('assetType').value;
+            fetch('/api/assets', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: assetName, type: assetType })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Asset created successfully');
+                    fetchAllAssets();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to create asset');
+                });
+        });
+
+        // Function to transfer an asset
+        document.getElementById('transferAssetForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const assetId = document.getElementById('assetId').value;
+            const newOwner = document.getElementById('newOwner').value;
+            fetch(`/api/assets/${assetId}/transfer`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ owner: newOwner })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Asset transferred successfully');
+                    fetchAllAssets();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to transfer asset');
+                });
+        });
+        // Function to delete an asset
+        document.getElementById('deleteAssetForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const deleteAssetId = document.getElementById('deleteAssetId').value;
+            fetch(`/api/assets/${deleteAssetId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        alert('Asset deleted successfully');
+                        fetchAllAssets();
+                    } else {
+                        alert('Failed to delete asset');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete asset');
+                });
+        });
+
+        // Initial fetch of all assets
+        fetchAllAssets();
+    </script>
+</body>
+
+</html>

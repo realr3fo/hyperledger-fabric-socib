@@ -2,7 +2,8 @@
 
 TEST_NETWORK_HOME=$(pwd)/../test-network npm run generateEnv
 
-docker stop $(docker ps -q --filter "name=redis") && docker rm $(docker ps -aq --filter "name=redis")
+docker stop $(docker ps -q --filter "name=redis")
+docker rm $(docker ps -aq --filter "name=redis")
 
 export REDIS_PASSWORD=$(uuidgen)
 

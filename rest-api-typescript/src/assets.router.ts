@@ -31,7 +31,6 @@ import crypto from 'crypto';
 import fileUpload from 'express-fileupload';
 
 
-
 function readRowsFromFileContent(fileContent: string): string[] {
   // const fileContent = fs.readFileSync(filePath, 'utf-8');
   const rows = fileContent.split('\n').map(row => row.trim());
@@ -184,11 +183,11 @@ interface CustomUploadedFile {
   md5: string;
   mv: () => void;
 }
-// SOCIBBED
+
 export const assetsRouter = express.Router();
 assetsRouter.use(fileUpload());
 
-// SOCIBBED
+
 assetsRouter.get('/', async (req: Request, res: Response) => {
   logger.debug('Get all assets request received');
   try {
@@ -223,7 +222,7 @@ assetsRouter.get('/', async (req: Request, res: Response) => {
   }
 });
 
-// SOCIBBED
+
 assetsRouter.post(
   '/',
   body().isObject().withMessage('body must contain an asset object'),
@@ -255,6 +254,8 @@ assetsRouter.post(
 
     const file = req.files.file as unknown as CustomUploadedFile;
     const fileData = Buffer.from(file.data).toString();
+    // Get the filename
+    const filename = file.name;
 
     const data = generateDataFromFileContent(fileData);
 
@@ -267,6 +268,7 @@ assetsRouter.post(
         data.ID,
         data.Owner,
         data.Filehash,
+        filename,
         data.FileuniqueID,
         data.FileCreationTime,
         JSON.stringify(data.CommonVariables),
@@ -284,6 +286,7 @@ assetsRouter.post(
 
       return res.status(ACCEPTED).json({
         status: getReasonPhrase(ACCEPTED),
+        id: data.ID,
         jobId: jobId,
         timestamp: new Date().toISOString(),
       });
@@ -301,7 +304,7 @@ assetsRouter.post(
   }
 );
 
-// SOCIBBED
+
 assetsRouter.options('/:assetId', async (req: Request, res: Response) => {
   const assetId = req.params.assetId;
   logger.debug('Asset options request received for asset ID %s', assetId);
@@ -342,7 +345,6 @@ assetsRouter.options('/:assetId', async (req: Request, res: Response) => {
   }
 });
 
-// SOCIBBED
 assetsRouter.get('/:assetId', async (req: Request, res: Response) => {
   const assetId = req.params.assetId;
   logger.debug('Read asset request received for asset ID %s', assetId);
@@ -392,7 +394,6 @@ assetsRouter.get('/:assetId', async (req: Request, res: Response) => {
 });
 
 
-// SOCIBBED
 assetsRouter.get('/:assetId/history', async (req: Request, res: Response) => {
   const assetId = req.params.assetId;
   logger.debug('Read asset request received for asset ID %s', assetId);
@@ -442,7 +443,7 @@ assetsRouter.get('/:assetId/history', async (req: Request, res: Response) => {
   }
 });
 
-// TODO: socib asset update (maybe remove)
+
 assetsRouter.put(
   '/:assetId',
   body().isObject().withMessage('body must contain an asset object'),
@@ -494,6 +495,7 @@ assetsRouter.put(
 
     const file = req.files.file as unknown as CustomUploadedFile;
     const fileData = Buffer.from(file.data).toString();
+    const filename = file.name;
     const newData = generateDataFromFileContent(fileData);
     const newFileHash = newData.Filehash;
 
@@ -511,6 +513,7 @@ assetsRouter.put(
 
         return res.status(ACCEPTED).json({
           status: getReasonPhrase(ACCEPTED),
+          id: oldAsset.ID,
           jobId: jobId,
           timestamp: new Date().toISOString(),
         });
@@ -538,6 +541,7 @@ assetsRouter.put(
           oldAsset.ID,
           newOwner,
           newFileHash,
+          filename,
           oldAsset.ID,
           newData.FileCreationTime,
           JSON.stringify(newData.CommonVariables),
@@ -555,6 +559,7 @@ assetsRouter.put(
 
         return res.status(ACCEPTED).json({
           status: getReasonPhrase(ACCEPTED),
+          id: oldAsset.ID,
           jobId: jobId,
           timestamp: new Date().toISOString(),
         });
@@ -574,67 +579,7 @@ assetsRouter.put(
   }
 );
 
-// // TODO: SOCIB asset transfer merge with update?
-// assetsRouter.patch(
-//   '/:assetId',
-//   body()
-//     .isArray({
-//       min: 1,
-//       max: 1,
-//     })
-//     .withMessage('body must contain an array with a single patch operation'),
-//   body('*.op', "operation must be 'replace'").equals('replace'),
-//   body('*.path', "path must be '/Owner'").equals('/Owner'),
-//   body('*.value', 'must be a string').isString(),
-//   async (req: Request, res: Response) => {
-//     logger.debug(req.body, 'Transfer asset request received');
 
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(BAD_REQUEST).json({
-//         status: getReasonPhrase(BAD_REQUEST),
-//         reason: 'VALIDATION_ERROR',
-//         message: 'Invalid request body',
-//         timestamp: new Date().toISOString(),
-//         errors: errors.array(),
-//       });
-//     }
-
-//     const mspId = req.user as string;
-//     const assetId = req.params.assetId;
-//     const newOwner = req.body[0].value;
-
-//     try {
-//       const submitQueue = req.app.locals.jobq as Queue;
-//       const jobId = await addSubmitTransactionJob(
-//         submitQueue,
-//         mspId,
-//         'TransferAsset',
-//         assetId,
-//         newOwner
-//       );
-
-//       return res.status(ACCEPTED).json({
-//         status: getReasonPhrase(ACCEPTED),
-//         jobId: jobId,
-//         timestamp: new Date().toISOString(),
-//       });
-//     } catch (err) {
-//       logger.error(
-//         { err },
-//         'Error processing update asset request for asset ID %s',
-//         req.params.assetId
-//       );
-
-//       return res.status(INTERNAL_SERVER_ERROR).json({
-//         status: getReasonPhrase(INTERNAL_SERVER_ERROR),
-//         timestamp: new Date().toISOString(),
-//       });
-//     }
-//   }
-// );
-
-// SOCIBBED
 assetsRouter.delete('/:assetId', async (req: Request, res: Response) => {
   logger.debug(req.body, 'Delete asset request received');
 

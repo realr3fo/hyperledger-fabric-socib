@@ -65,6 +65,7 @@ export const createServer = async (): Promise<Application> => {
   app.use('/api/assets', authenticateApiKey, assetsRouter);
   app.use('/api/jobs', authenticateApiKey, jobsRouter);
   app.use('/api/transactions', authenticateApiKey, transactionsRouter);
+  app.use(express.static('public')); // Serve static files from the "public" directory
 
   // For everything else
   app.use((_req, res) =>
