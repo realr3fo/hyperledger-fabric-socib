@@ -1,204 +1,239 @@
+<!--Design by foolishdeveloper.com-->
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Asset Management</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+        * {
+            list-style: none;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
         }
 
-        h1 {
+        body {
+            background: #f5f6fa;
+        }
+
+        .wrapper .sidebar {
+            background: rgb(5, 68, 104);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            padding: 20px 0;
+            transition: all 0.5s ease;
+        }
+
+        .wrapper .sidebar .profile {
+            margin-bottom: 30px;
             text-align: center;
         }
 
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            width: 80%;
+        .wrapper .sidebar .profile img {
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
         }
 
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        .wrapper .sidebar .profile h3 {
+            color: #ffffff;
+            margin: 10px 0 5px;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .wrapper .sidebar .profile p {
+            color: rgb(206, 240, 253);
+            font-size: 14px;
         }
 
-        form {
-            margin: 20px auto;
-            width: 80%;
+        .wrapper .sidebar ul li a {
+            display: block;
+            padding: 13px 30px;
+            border-bottom: 1px solid #10558d;
+            color: rgb(241, 237, 237);
+            font-size: 16px;
+            position: relative;
         }
 
-        input[type="text"],
-        textarea {
+        .wrapper .sidebar ul li a .icon {
+            color: #dee4ec;
+            width: 30px;
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a:hover,
+        .wrapper .sidebar ul li a.active {
+            color: #0c7db1;
+            background: white;
+            border-right: 2px solid rgb(5, 68, 104);
+        }
+
+        .wrapper .sidebar ul li a:hover .icon,
+        .wrapper .sidebar ul li a.active .icon {
+            color: #0c7db1;
+        }
+
+        .wrapper .sidebar ul li a:hover:before,
+        .wrapper .sidebar ul li a.active:before {
+            display: block;
+        }
+
+        .wrapper .section {
+            width: calc(100% - 240px);
+            margin-left: 240px;
+            transition: all 0.5s ease;
+        }
+
+        .wrapper .section .top_navbar {
+            background: rgb(7, 105, 185);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .wrapper .section .top_navbar .hamburger a {
+            font-size: 28px;
+            color: #f4fbff;
+        }
+
+        .wrapper .section .top_navbar .hamburger a:hover {
+            color: #a2ecff;
+        }
+
+        .wrapper .section .container {
+            margin: 30px;
+            background: #fff;
+            padding: 50px;
+            line-height: 28px;
+        }
+
+        body.active .wrapper .sidebar {
+            left: -240px;
+        }
+
+        body.active .wrapper .section {
+            margin-left: 0;
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            resize: vertical;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
         }
     </style>
 </head>
 
 <body>
-    <h1>Asset Management</h1>
-
-    <form id="createAssetForm">
-        <h2>Create Asset</h2>
-        <input type="text" id="assetName" placeholder="Asset Name">
-        <br>
-        <input type="text" id="assetType" placeholder="Asset Type">
-        <br>
-        <input type="submit" value="Create">
-    </form>
-
-    <form id="transferAssetForm">
-        <h2>Transfer Asset</h2>
-        <input type="text" id="assetId" placeholder="Asset ID">
-        <br>
-        <input type="text" id="newOwner" placeholder="New Owner">
-        <br>
-        <input type="submit" value="Transfer">
-    </form>
-
-    <form id="deleteAssetForm">
-        <h2>Delete Asset</h2>
-        <input type="text" id="deleteAssetId" placeholder="Asset ID">
-        <br>
-        <input type="submit" value="Delete">
-    </form>
-
-    <h2>All Assets</h2>
-    <table id="assetTable">
-        <tr>
-            <th>Asset ID</th>
-            <th>Asset Name</th>
-            <th>Asset Type</th>
-            <th>Owner</th>
-        </tr>
-    </table>
-
+    <div class="wrapper">
+        <div class="section">
+            <div class="top_navbar">
+                <div class="hamburger">
+                    <a href="#">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+                <div id="content-home" class="content-section">
+                    Home content
+                    <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.
+                </div>
+                <div id="content-asset-list" class="content-section" style="display: none;">
+                    Asset List content
+                    <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.
+                </div>
+                <div id="content-asset-management" class="content-section" style="display: none;">
+                    Asset Management content
+                    <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.
+                </div>
+                <div id="content-about-socib" class="content-section" style="display: none;">
+                    About SOCIB content
+                    <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="#" class="active" data-content="home">
+                        <span class="icon"><i class="fas fa-home"></i></span>
+                        <span class="item">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-content="asset-list">
+                        <span class="icon"><i class="fas fa-database"></i></span>
+                        <span class="item">Asset List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-content="asset-management">
+                        <span class="icon"><i class="fas fa-user-shield"></i></span>
+                        <span class="item">Asset Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-content="about-socib">
+                        <span class="icon"><i class="fas fa-user-friends"></i></span>
+                        <span class="item">About SOCIB</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <script>
-        // Function to fetch all assets
-        function fetchAllAssets() {
-            const apiKey = '67D55449-C1BE-42F3-9C54-5EF71DA80600';
-            fetch('/api/assets', {
-                headers: {
-                    'X-Api-Key': `${apiKey}`
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    const table = document.getElementById('assetTable');
-                    table.innerHTML = `
-        <tr>
-          <th>Asset ID</th>
-          <th>Asset Name</th>
-          <th>Asset Filehash</th>
-          <th>Owner</th>
-        </tr>
-      `;
-                    data.forEach(asset => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-          <td>${asset.ID}</td>
-          <td>TOTL_IBIZ_2023_05_01_1300.tuv</td>
-          <td>${asset.FileHash}</td>
-          <td>${asset.Owner}</td>
-        `;
-                        table.appendChild(row);
-                    });
-                });
-        }
+        var hamburger = document.querySelector(".hamburger");
+        var sidebarLinks = document.querySelectorAll(".sidebar ul li a");
+        var contentSections = document.querySelectorAll(".section .container > div");
 
-
-        // Function to create an asset
-        document.getElementById('createAssetForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const assetName = document.getElementById('assetName').value;
-            const assetType = document.getElementById('assetType').value;
-            fetch('/api/assets', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name: assetName, type: assetType })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Asset created successfully');
-                    fetchAllAssets();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to create asset');
-                });
+        hamburger.addEventListener("click", function () {
+            document.querySelector("body").classList.toggle("active");
         });
 
-        // Function to transfer an asset
-        document.getElementById('transferAssetForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const assetId = document.getElementById('assetId').value;
-            const newOwner = document.getElementById('newOwner').value;
-            fetch(`/api/assets/${assetId}/transfer`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ owner: newOwner })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Asset transferred successfully');
-                    fetchAllAssets();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to transfer asset');
+        sidebarLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                var contentId = this.getAttribute("data-content");
+                contentSections.forEach(function (section) {
+                    section.style.display = "none";
                 });
+                document.getElementById("content-" + contentId).style.display = "block";
+            });
         });
-        // Function to delete an asset
-        document.getElementById('deleteAssetForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const deleteAssetId = document.getElementById('deleteAssetId').value;
-            fetch(`/api/assets/${deleteAssetId}`, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        alert('Asset deleted successfully');
-                        fetchAllAssets();
-                    } else {
-                        alert('Failed to delete asset');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to delete asset');
-                });
-        });
+        var sidebarItems = document.querySelectorAll(".sidebar ul li a");
 
-        // Initial fetch of all assets
-        fetchAllAssets();
+        sidebarItems.forEach(function (item) {
+            item.addEventListener("click", function () {
+                // Remove the "active" class from all sidebar menu items
+                sidebarItems.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                // Add the "active" class to the clicked sidebar menu item
+                this.classList.add("active");
+            });
+        });
     </script>
 </body>
 
