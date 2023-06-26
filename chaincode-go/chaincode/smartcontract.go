@@ -28,6 +28,7 @@ type SocibHFRadarAsset struct {
 
 	// File Atttributes
 	FileHash         string `json:"FileHash"`
+	FileName         string `json:"FileName"`
 	FileUniqueID     string `json:"FileUniqueID"`     // Maybe just ID is enough?
 	FileCreationTime string `json:"FileCreationTime"` // TimeStamp from the file
 
@@ -50,7 +51,7 @@ type SocibHFRadarAsset struct {
 }
 
 // SOCIB ASSETS
-func (s *SmartContract) CreateSocibAsset(ctx contractapi.TransactionContextInterface, id, owner, fileHash, fileUniqueID, fileCreationTime string, commonVariables string, longitude, latitude string, time string, mean, min, max, standardDeviation string, numberOfSeries, softwareVersion int, links string) error {
+func (s *SmartContract) CreateSocibAsset(ctx contractapi.TransactionContextInterface, id, owner, fileHash, fileName, fileUniqueID, fileCreationTime string, commonVariables string, longitude, latitude string, time string, mean, min, max, standardDeviation string, numberOfSeries, softwareVersion int, links string) error {
 	// Check if the asset already exists
 	exists, err := s.SocibAssetExists(ctx, id)
 	if err != nil {
@@ -65,6 +66,7 @@ func (s *SmartContract) CreateSocibAsset(ctx contractapi.TransactionContextInter
 		ID:                id,
 		Owner:             owner,
 		FileHash:          fileHash,
+		FileName:          fileName,
 		FileUniqueID:      fileUniqueID,
 		FileCreationTime:  fileCreationTime,
 		CommonVariables:   commonVariables,
@@ -121,7 +123,7 @@ func (s *SmartContract) ReadSocibAsset(ctx contractapi.TransactionContextInterfa
 
 // TODO: Transfer is basically update
 // UpdateAsset updates an existing asset in the world state with provided parameters.
-func (s *SmartContract) UpdateSocibAsset(ctx contractapi.TransactionContextInterface, id, owner, fileHash, fileUniqueID, fileCreationTime string, commonVariables string, longitude, latitude string, time string, mean, min, max, standardDeviation string, numberOfSeries, softwareVersion int, links string) error {
+func (s *SmartContract) UpdateSocibAsset(ctx contractapi.TransactionContextInterface, id, owner, fileHash, fileName, fileUniqueID, fileCreationTime string, commonVariables string, longitude, latitude string, time string, mean, min, max, standardDeviation string, numberOfSeries, softwareVersion int, links string) error {
 	exists, err := s.SocibAssetExists(ctx, id)
 	if err != nil {
 		return err
@@ -136,6 +138,7 @@ func (s *SmartContract) UpdateSocibAsset(ctx contractapi.TransactionContextInter
 		ID:                id,
 		Owner:             owner,
 		FileHash:          fileHash,
+		FileName:          fileName,
 		FileUniqueID:      fileUniqueID,
 		FileCreationTime:  fileCreationTime,
 		CommonVariables:   commonVariables,

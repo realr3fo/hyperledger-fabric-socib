@@ -1,1 +1,1 @@
- ./network.sh up createChannel -c channel24 ; ./network.sh deployCC -c channel24 -ccn basic -ccp ../chaincode-go -ccl go
+ ./network.sh up createChannel -c socib2 ; ./network.sh deployCC -c socib2 -ccn basic -ccp ../chaincode-go -ccl go
