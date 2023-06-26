@@ -142,7 +142,24 @@ export const createServer = async (): Promise<Application> => {
   });
 
   app.get('/asset-management', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'asset-management.html'));
+    const htmlFilePath = path.join(publicPath, 'asset-management.html');
+
+    // Read the HTML file
+    fs.readFile(htmlFilePath, 'utf8', (err, html) => {
+      if (err) {
+        return res.status(500).send('Error reading HTML file');
+      }
+
+      // Inject the API key into the HTML
+      const apiKey = process.env.ORG1_APIKEY || '';
+
+      // Replace placeholders in the HTML with the assetId and API key
+      const injectedHtml = html
+        .replace('{{API_KEY}}', apiKey);
+
+      // Send the modified HTML response
+      res.send(injectedHtml);
+    });
   });
   app.get('/asset-detail', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'asset-detail.html'));

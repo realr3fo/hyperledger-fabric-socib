@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SOCIB FabricTrace</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
@@ -129,6 +129,69 @@
             margin-left: 0;
             width: 100%;
         }
+
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 100%;
+            background-color: rgb(7, 105, 185);
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            /* background-color: rgb(107, 166, 216); */
+            opacity: 0.5;
+        }
+
+        .form-container {
+            margin-top: 5%;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type=file] {
+            /* position: absolute; */
+            margin: 0;
+            padding: 0;
+            outline: none;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+        }
+
+        form p {
+            /* position: fixed; */
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            /* line-height: 170px; */
+            color: #000;
+            font-family: Arial;
+        }
+
+        .file-form {
+            height: 50px;
+            border-radius: 5px;
+            border: 2px dashed #000;
+        }
     </style>
 </head>
 
@@ -144,11 +207,60 @@
             </div>
             <div class="container">
                 <div id="content-asset-management" class="content-section">
-                    Asset Management content
-                    <br />
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
+                    <h1 style="text-align: center;">Asset Management</h1>
+
+                    <div class="form-container">
+                        <h2 style="margin-bottom: 2%; text-align: center;">Transfer Asset</h2>
+                        <form id="transfer-form">
+                            <label for="transfer-asset-id">Asset ID</label>
+                            <input required type="text" id="transfer-asset-id" name="asset-id" placeholder="Asset ID..">
+
+                            <label for="transfer-new-owner">New Owner</label>
+                            <input required type="text" id="transfer-new-owner" name="new-owner"
+                                placeholder="New Owner..">
+
+                            <label for="transfer-asset-file">File Upload</label>
+                            <div class="file-form">
+                                <input id="transfer-asset-file" type="file" single>
+                            </div>
+                            <p>Drag your file or click in the above area.</p>
+                            <p id="transfer-asset-filename"></p>
+
+                            <input type="submit" value="Transfer Asset">
+                        </form>
+                    </div>
+
+                    <div class="form-container">
+                        <h2 style="margin-bottom: 2%; text-align: center;">Create Asset</h2>
+                        <form id="create-form">
+                            <label for="create-asset-file">File Upload</label>
+                            <div class="file-form">
+                                <input required id="create-asset-file" type="file" single>
+                            </div>
+                            <p>Drag your file or click in the above area.</p>
+                            <p id="create-asset-filename"></p>
+
+                            <label for="create-asset-creds">SOCIB Credentials</label>
+                            <input required type="text" id="create-asset-creds" name="credentials"
+                                placeholder="Credentials..">
+
+                            <input style="background-color: green;" type="submit" value="Create Asset">
+                        </form>
+                    </div>
+
+                    <div class="form-container">
+                        <h2 style="margin-bottom: 2%; text-align: center;">Delete Asset</h2>
+                        <form id="delete-form">
+                            <label for="delete-asset-id">Asset ID</label>
+                            <input required type="text" id="delete-asset-id" name="asset-id" placeholder="Asset ID..">
+
+                            <label for="delete-asset-creds">SOCIB Credentials</label>
+                            <input required type="text" id="delete-asset-creds" name="credentials"
+                                placeholder="Credentials..">
+
+                            <input style="background-color: rgb(236, 15, 15);" type="submit" value="Delete Asset">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,6 +294,10 @@
         </div>
     </div>
     <script>
+        const apiKey = '{{API_KEY}}'
+        const socibKey = 'socib-private-key'
+        console.log(apiKey);
+
         function redirectTo(link) {
             window.location.href = link;
         }
@@ -220,6 +336,7 @@
             var sidebar = document.querySelector(".sidebar");
             var body = document.querySelector("body");
 
+
             var bodyClickListener = function (event) {
                 // Clicked outside the sidebar and hamburger
                 body.classList.toggle("active");
@@ -227,6 +344,136 @@
             };
             body.addEventListener("click", bodyClickListener);
         });
+        const fileInput = document.getElementById('transfer-asset-file');
+        const filenamePlaceholder = document.getElementById('transfer-asset-filename');
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                filenamePlaceholder.textContent = "File Uploaded: " + file.name;
+            } else {
+                filenamePlaceholder.textContent = '';
+            }
+        });
+
+        const createForm = document.getElementById('create-form');
+        const createAssetInput = document.getElementById('create-asset-file');
+        const createAssetPlaceholder = document.getElementById('create-asset-filename');
+        createAssetInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                createAssetPlaceholder.textContent = "File Uploaded: " + file.name;
+            } else {
+                createAssetPlaceholder.textContent = '';
+            }
+        });
+        createForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            // const assetId = document.getElementById('transfer-asset-id').value;
+            const file = document.getElementById('create-asset-file').files[0];
+            const socibCreds = document.getElementById('create-asset-creds').value;
+            if (socibCreds != socibKey) {
+                alert('SOCIB credentials is wrong');
+            } else {
+                if (socibCreds && file) {
+                    const apiUrl = `/api/assets/`;
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    fetch(apiUrl, {
+                        headers: { "X-Api-Key": apiKey },
+                        method: 'POSt',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle API response here
+                            showSuccessPopup('Crerate Asset Success');
+                            createForm.reset();
+                            createAssetPlaceholder.textContent = '';
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                } else {
+                    // Handle missing input or file error
+                    console.error('Missing input or file.');
+                }
+            }
+        });
+
+        const transferForm = document.getElementById('transfer-form');
+        transferForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            const assetId = document.getElementById('transfer-asset-id').value;
+            const newOwner = document.getElementById('transfer-new-owner').value;
+            const file = document.getElementById('transfer-asset-file').files[0];
+
+            if (assetId && newOwner && file) {
+                const apiUrl = `/api/assets/${assetId}?newowner=${(newOwner)}`;
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch(apiUrl, {
+                    headers: { "X-Api-Key": apiKey },
+                    method: 'PUT',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle API response here
+                        showSuccessPopup('Transfer Asset Success');
+                        transferForm.reset();
+                        filenamePlaceholder.textContent = '';
+                    })
+                    .catch(error => {
+                        // Handle error
+                        console.error(error);
+                    });
+            } else {
+                // Handle missing input or file error
+                console.error('Missing input or file.');
+            }
+        });
+
+        const deleteForm = document.getElementById('delete-form');
+        deleteForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            const assetId = document.getElementById('delete-asset-id').value;
+            const socibCreds = document.getElementById('delete-asset-creds').value;
+            if (socibCreds != socibKey) {
+                alert('SOCIB credentials is wrong');
+            } else {
+                if (assetId && socibCreds) {
+                    const apiUrl = `/api/assets/${assetId}`;
+                    fetch(apiUrl, {
+                        headers: { "X-Api-Key": apiKey },
+                        method: 'DELETE',
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle API response here
+                            showSuccessPopup('Asset Deleted');
+                            deleteForm.reset();
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                } else {
+                    // Handle missing input or file error
+                    console.error('Missing input or file.');
+                }
+            }
+        });
+
+        function showSuccessPopup(alertMessage) {
+            // Replace this with your own logic for showing the success popup
+            alert(alertMessage);
+        }
     </script>
 </body>
 
