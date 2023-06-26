@@ -14,6 +14,9 @@ import { jobsRouter } from './jobs.router';
 import { logger } from './logger';
 import { transactionsRouter } from './transactions.router';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
+
 
 const { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } = StatusCodes;
 
@@ -60,13 +63,90 @@ export const createServer = async (): Promise<Application> => {
   if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
   }
+  const publicPath = path.join(__dirname, '../public');
 
-  app.use('/', healthRouter);
+
+  app.use('/api/health', healthRouter);
   app.use('/api/assets', authenticateApiKey, assetsRouter);
   app.use('/api/jobs', authenticateApiKey, jobsRouter);
   app.use('/api/transactions', authenticateApiKey, transactionsRouter);
   app.use(express.static('public')); // Serve static files from the "public" directory
+  // Define routes
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+  });
+  app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'about.html'));
+  });
+  app.get('/assets', (req, res) => {
+    const htmlFilePath = path.join(publicPath, 'assets.html');
+    // Read the HTML file
+    fs.readFile(htmlFilePath, 'utf8', (err, html) => {
+      if (err) {
+        return res.status(500).send('Error reading HTML file');
+      }
 
+      // Inject the API key into the HTML
+      const apiKey = process.env.ORG1_APIKEY || '';
+      const injectedHtml = html.replace('{{API_KEY}}', apiKey);
+
+      // Send the modified HTML response
+      res.send(injectedHtml);
+    });
+  });
+  app.get('/assets/detail/:assetId', (req, res) => {
+    const htmlFilePath = path.join(publicPath, 'asset-detail.html');
+
+    // Read the HTML file
+    fs.readFile(htmlFilePath, 'utf8', (err, html) => {
+      if (err) {
+        return res.status(500).send('Error reading HTML file');
+      }
+
+      // Inject the API key into the HTML
+      const apiKey = process.env.ORG1_APIKEY || '';
+      const assetId = req.params.assetId;
+
+      // Replace placeholders in the HTML with the assetId and API key
+      const injectedHtml = html
+        .replace('{{ASSET_ID}}', assetId)
+        .replace('{{API_KEY}}', apiKey);
+
+      // Send the modified HTML response
+      res.send(injectedHtml);
+    });
+  });
+  app.get('/assets/detail/:assetId/:historyNum', (req, res) => {
+    const htmlFilePath = path.join(publicPath, 'asset-history.html');
+
+    // Read the HTML file
+    fs.readFile(htmlFilePath, 'utf8', (err, html) => {
+      if (err) {
+        return res.status(500).send('Error reading HTML file');
+      }
+
+      // Inject the API key into the HTML
+      const apiKey = process.env.ORG1_APIKEY || '';
+      const assetId = req.params.assetId;
+      const historyNum = req.params.historyNum;
+
+      // Replace placeholders in the HTML with the assetId and API key
+      const injectedHtml = html
+        .replace('{{ASSET_ID}}', assetId)
+        .replace('{{API_KEY}}', apiKey)
+        .replace('{{HISTORY_NUM}}', historyNum);
+
+      // Send the modified HTML response
+      res.send(injectedHtml);
+    });
+  });
+
+  app.get('/asset-management', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'asset-management.html'));
+  });
+  app.get('/asset-detail', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'asset-detail.html'));
+  });
   // For everything else
   app.use((_req, res) =>
     res.status(NOT_FOUND).json({

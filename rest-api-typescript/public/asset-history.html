@@ -1,0 +1,543 @@
+<!--Design by foolishdeveloper.com-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+        * {
+            list-style: none;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+        }
+
+        .wrapper .sidebar {
+            background: rgb(5, 68, 104);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            padding: 20px 0;
+            transition: all 0.5s ease;
+        }
+
+
+        /* .wrapper .sidebar .profile img {
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
+        } */
+
+        .wrapper .sidebar ul li a {
+            display: block;
+            padding: 13px 30px;
+            border-bottom: 1px solid #10558d;
+            color: rgb(241, 237, 237);
+            font-size: 16px;
+            position: relative;
+        }
+
+        .wrapper .sidebar ul li a .icon {
+            color: #dee4ec;
+            width: 30px;
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a:hover,
+        .wrapper .sidebar ul li a.active {
+            color: #0c7db1;
+            background: white;
+            border-right: 2px solid rgb(5, 68, 104);
+        }
+
+        .wrapper .sidebar ul li a:hover .icon,
+        .wrapper .sidebar ul li a.active .icon {
+            color: #0c7db1;
+        }
+
+        .wrapper .sidebar ul li a:hover:before,
+        .wrapper .sidebar ul li a.active:before {
+            display: block;
+        }
+
+        .wrapper .section {
+            width: calc(100% - 240px);
+            margin-left: 240px;
+            transition: all 0.5s ease;
+        }
+
+        .wrapper .section .top_navbar {
+            background: rgb(7, 105, 185);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .wrapper .section .top_navbar .hamburger a {
+            font-size: 28px;
+            color: #f4fbff;
+        }
+
+        .wrapper .section .top_navbar .hamburger a:hover {
+            color: #a2ecff;
+        }
+
+        .wrapper .section .container {
+            margin: 30px;
+            background: #fff;
+            padding: 50px;
+            line-height: 28px;
+        }
+
+        body.active .wrapper .sidebar {
+            left: -240px;
+        }
+
+        body.active .wrapper .section {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .square {
+            height: 100px;
+            width: 100px;
+            border-radius: 10px;
+            background: rgb(107, 166, 216);
+            margin: 10px;
+        }
+
+        .square-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Adjust the height as needed */
+        }
+
+        .horizontal-line {
+            border: none;
+            border-top: 2px solid black;
+            margin: 20px 0;
+        }
+
+        .details {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        #Longitudevals,
+        #Latitudevals {
+            /* white-space: pre-wrap; */
+            margin-left: 2%;
+            word-break: break-word;
+            max-width: 95%;
+            /* Adjust the maximum width as needed */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .key {
+            display: inline-block;
+            width: 200px;
+            /* Adjust the width as per your requirement */
+        }
+
+        .value {
+            display: inline-block;
+            font-family: 'Courier New', Courier, monospace;
+            /* Adjust the width as per your requirement */
+        }
+
+        #history-list {
+            margin-top: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .history-item {
+            text-align: center;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .connector {
+            width: 50px;
+            height: 2px;
+            background-color: black;
+        }
+
+        .previous,
+        .next {
+            background-color: rgb(107, 166, 216);
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0px 5px;
+            margin-top: 10px;
+            border: 0px;
+            cursor: pointer;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+
+        .previous:hover,
+        .next:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .inactive {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="section">
+            <div class="top_navbar">
+                <div class="hamburger">
+                    <a>
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+                <h1 style="text-align: center;">Asset Details</h1>
+                <br />
+                <div class="square-container">
+                    <div class="square"></div>
+                </div>
+                <div id="asset-title"></div>
+                <div id="button-container" style="display: flex; justify-content: center; align-items: center;">
+                    <button id="prev-btn" class="previous round">&#8249;</button>
+                    <button id="next-btn" class="next round">&#8250;</button>
+                </div>
+                <hr class="horizontal-line">
+                <div class="details">
+                    <div id="fileInfo"></div>
+                </div>
+                <hr class="horizontal-line">
+                <h2 style="text-align: center;">Asset History </h2>
+                <div id="history-list">
+
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a data-content="home" onclick="redirectTo('/')">
+                        <span class="icon"><i class="fas fa-home"></i></span>
+                        <span class="item">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active" onclick="redirectTo('/assets')">
+                        <span class="icon"><i class="fas fa-database"></i></span>
+                        <span class="item">Assets List</span>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="redirectTo('/asset-management')">
+                        <span class="icon"><i class="fas fa-user-shield"></i></span>
+                        <span class="item">Manage Assets</span>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="redirectTo('/about')">
+                        <span class="icon"><i class="fas fa-user-friends"></i></span>
+                        <span class="item">About SOCIB</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        var assetId = "{{ASSET_ID}}"
+        var apiKey = "{{API_KEY}}"
+        var historyNum = "{{HISTORY_NUM}}"
+
+        function toggleLongLat(typeName) {
+            var values = document.getElementById(typeName);
+            if (values.style.display === "none") {
+                values.style.display = "block";
+            } else {
+                values.style.display = "none";
+            }
+        }
+        function toggleContent(containerName) {
+            var contentContainer = document.getElementById(containerName);
+
+            if (contentContainer.classList.contains("hidden")) {
+                contentContainer.classList.remove("hidden");
+            } else {
+                contentContainer.classList.add("hidden");
+            }
+        }
+
+        function addSquaresAndConnectors(data) {
+            var historyList = document.getElementById("history-list");
+
+            for (var i = 0; i < data.length; i++) {
+                var historyItem = document.createElement("div");
+                historyItem.className = "history-item";
+
+                var square = document.createElement("div");
+                square.className = "square";
+                square.style.cursor = 'pointer';
+                var link = '/assets/detail/' + assetId + "/" + i;
+                square.setAttribute("data-link", link);
+                square.addEventListener("click", function () {
+                    link = this.getAttribute("data-link");
+                    console.log(link)
+                    if (link) {
+                        window.location.href = link; // Redirect to the link
+                    }
+                });
+
+                var p = document.createElement("p");
+                p.textContent = "#" + (i + 1);
+                if (i > 0) {
+                    var connector = document.createElement("div");
+                    connector.className = "connector";
+                    historyList.appendChild(connector);
+                }
+                historyItem.appendChild(square);
+                historyItem.appendChild(p);
+                historyList.appendChild(historyItem);
+            }
+        }
+
+        function toggleButtons(data, historyNum) {
+            const prevButton = document.getElementById('prev-btn');
+            const nextButton = document.getElementById('next-btn');
+
+            // Set the click listeners and links for the previous and next buttons
+            prevButton.addEventListener('click', () => {
+                if (historyNum > 0) {
+                    window.location.href = `/assets/detail/${assetId}/${parseInt(historyNum) - 1}`;
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (historyNum < data.length - 1) {
+                    window.location.href = `/assets/detail/${assetId}/${parseInt(historyNum) + 1}`;
+                }
+            });
+
+            // Toggle the "inactive" class for the previous and next buttons
+            if (historyNum == 0) {
+                prevButton.classList.add('inactive');
+            }
+
+            if (historyNum == data.length - 1) {
+                nextButton.classList.add('inactive');
+            }
+        }
+
+        function fetchData() {
+            const url = `/api/assets/${assetId}/history`;
+            fetch(url, {
+                headers: {
+                    "X-Api-Key": apiKey,
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    var sortedData = data.reverse();
+                    addSquaresAndConnectors(sortedData);
+                    toggleButtons(sortedData, historyNum);
+                    var item = sortedData[historyNum];
+                    const record = item.record;
+                    const txID = item.txId;
+
+                    const fileInfoContainer = document.getElementById("fileInfo");
+
+                    const paragraph = document.createElement("p");
+                    const keyElement = document.createElement("span");
+                    const valueElement = document.createElement("span");
+
+                    keyElement.classList.add("key");
+                    valueElement.classList.add("value");
+
+                    keyElement.textContent = "Transaction ID";
+                    valueElement.textContent = txID;
+
+                    paragraph.appendChild(keyElement);
+                    paragraph.appendChild(valueElement);
+                    fileInfoContainer.appendChild(paragraph);
+                    for (const key in record) {
+                        const value = record[key];
+                        const splittedText = key.split(/(?=[A-Z])/);
+                        var joinedText = splittedText.join(" ");
+                        if (joinedText === "File Unique I D") { joinedText = "File Unique ID" }
+
+                        if (key === "ID") {
+                            const assetTitleContainer = document.getElementById("asset-title");
+                            const h2 = document.createElement("h2");
+                            h2.style.textAlign = "center";
+                            h2.textContent = "Asset ID: " + value;
+                            assetTitleContainer.appendChild(h2);
+                            continue
+                        }
+                        if (key === "Longitude" || key === "Latitude") {
+                            const paragraph = document.createElement("p");
+                            paragraph.style.fontWeight = "bold";
+                            paragraph.style.fontSize = "medium";
+                            paragraph.style.cursor = "pointer";
+                            paragraph.onclick = function () { toggleLongLat(key + 'vals'); };
+                            paragraph.innerHTML = key + ' Values &#9660;';
+                            const valueContent = document.createElement("p");
+                            valueContent.style.display = "none";
+                            valueContent.setAttribute('id', key + 'vals')
+                            var longlatVals = value.split(",");
+                            const joinedValues = longlatVals.join(", ");
+                            valueContent.textContent = joinedValues;
+                            fileInfoContainer.appendChild(paragraph)
+                            fileInfoContainer.appendChild(valueContent)
+                            continue
+                        }
+                        if (["CommonVariables", "Mean", "Min", "Max", "StandardDeviation"].includes(key)
+                        ) {
+                            const container = document.createElement("div");
+                            container.id = key + "container";
+                            container.classList.add("hidden");
+
+                            const paragraph = document.createElement("p");
+                            paragraph.style = "font-weight: bold; font-size: medium; cursor: pointer;";
+                            paragraph.onclick = () => toggleContent(key + "container");
+                            paragraph.innerHTML = `${joinedText} &#9660;`;
+
+                            // container.appendChild(paragraph);
+                            const innerObject = record[key];
+                            for (const innerKey in innerObject) {
+                                const valueParagraph = document.createElement("p");
+                                const keyElement = document.createElement("span");
+                                const valueElement = document.createElement("span");
+                                valueParagraph.style = "margin-left: 2%;"
+
+                                keyElement.classList.add("key");
+                                valueElement.classList.add("value");
+
+                                const innerValue = innerObject[innerKey];
+                                keyElement.textContent = innerKey;
+                                valueElement.textContent = innerValue;
+
+                                valueParagraph.appendChild(keyElement);
+                                valueParagraph.appendChild(valueElement);
+
+                                container.appendChild(valueParagraph);
+                            }
+
+                            // Append the container to the desired parent element
+                            fileInfoContainer.appendChild(paragraph);
+                            fileInfoContainer.appendChild(container);
+                            continue
+                        }
+
+                        const paragraph = document.createElement("p");
+                        const keyElement = document.createElement("span");
+                        const valueElement = document.createElement("span");
+
+                        keyElement.classList.add("key");
+                        valueElement.classList.add("value");
+
+                        keyElement.textContent = joinedText;
+                        valueElement.textContent = value;
+
+                        paragraph.appendChild(keyElement);
+                        paragraph.appendChild(valueElement);
+                        fileInfoContainer.appendChild(paragraph);
+                    }
+                    ;
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        fetchData();
+
+        function redirectTo(link) {
+            window.location.href = link;
+        }
+        var hamburger = document.querySelector(".hamburger");
+        var sidebarLinks = document.querySelectorAll(".sidebar ul li a");
+        var contentSections = document.querySelectorAll(".section .container > div");
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var sidebar = document.querySelector(".sidebar");
+            var body = document.querySelector("body");
+
+            var bodyClickListener = function (event) {
+                // Clicked outside the sidebar and hamburger
+                body.classList.toggle("active");
+                body.removeEventListener("click", bodyClickListener);
+            };
+            body.addEventListener("click", bodyClickListener);
+        });
+        hamburger.addEventListener("click", function () {
+            document.querySelector("body").classList.toggle("active");
+            var body = document.querySelector("body");
+        });
+
+        sidebarLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                var contentId = this.getAttribute("data-content");
+                contentSections.forEach(function (section) {
+                    section.style.display = "none";
+                });
+                document.getElementById("content-" + contentId).style.display = "block";
+            });
+        });
+        var sidebarItems = document.querySelectorAll(".sidebar ul li a");
+
+        sidebarItems.forEach(function (item) {
+            item.addEventListener("click", function () {
+                // Remove the "active" class from all sidebar menu items
+                sidebarItems.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                // Add the "active" class to the clicked sidebar menu item
+                this.classList.add("active");
+            });
+        });
+    </script>
+</body>
+
+</html>

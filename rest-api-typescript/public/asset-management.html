@@ -36,14 +36,28 @@
             transition: all 0.5s ease;
         }
 
+        .wrapper .sidebar .profile {
+            margin-bottom: 30px;
+            text-align: center;
+        }
 
-        /* .wrapper .sidebar .profile img {
+        .wrapper .sidebar .profile img {
             display: block;
             width: 100px;
             height: 100px;
             border-radius: 50%;
             margin: 0 auto;
-        } */
+        }
+
+        .wrapper .sidebar .profile h3 {
+            color: #ffffff;
+            margin: 10px 0 5px;
+        }
+
+        .wrapper .sidebar .profile p {
+            color: rgb(206, 240, 253);
+            font-size: 14px;
+        }
 
         .wrapper .sidebar ul li a {
             display: block;
@@ -115,24 +129,6 @@
             margin-left: 0;
             width: 100%;
         }
-
-        .profile {
-            width: 100%;
-            /* Set the width of the div */
-            height: auto;
-            /* Let the height adjust automatically based on the image */
-        }
-
-        .profile img {
-            max-width: 100%;
-            /* Make the image scale down to fit within the div */
-            height: auto;
-            /* Let the height adjust automatically based on the image */
-            display: block;
-            /* Remove any extra space below the image */
-            margin: 0 auto;
-            /* Center the image horizontally */
-        }
     </style>
 </head>
 
@@ -147,21 +143,19 @@
                 </div>
             </div>
             <div class="container">
-                <div id="content-home" class="content-section">
+                <div id="content-asset-management" class="content-section">
+                    Asset Management content
                     <br />
-                    <h1 style="text-align: center;">SOCIB FabricTrace: Dataset Traceability with Hyperledger Fabric</h1>
-                    <div class="profile" style="text-align: center; margin-top: 100px;">
-                        <img style="width: 80%; height: auto;" src="home-diagram.svg" alt="Local Image">
-                        <br />
-                        <p>Powered by SOCIB</p>
-                    </div>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.
                 </div>
             </div>
         </div>
         <div class="sidebar">
             <ul>
                 <li>
-                    <a class="active" data-content="home" onclick="redirectTo('/')">
+                    <a data-content="home" onclick="redirectTo('/')">
                         <span class="icon"><i class="fas fa-home"></i></span>
                         <span class="item">Home</span>
                     </a>
@@ -173,7 +167,7 @@
                     </a>
                 </li>
                 <li>
-                    <a onclick="redirectTo('/asset-management')">
+                    <a class="active" onclick="redirectTo('/asset-management')">
                         <span class="icon"><i class="fas fa-user-shield"></i></span>
                         <span class="item">Manage Assets</span>
                     </a>
@@ -195,20 +189,8 @@
         var sidebarLinks = document.querySelectorAll(".sidebar ul li a");
         var contentSections = document.querySelectorAll(".section .container > div");
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var sidebar = document.querySelector(".sidebar");
-            var body = document.querySelector("body");
-
-            var bodyClickListener = function (event) {
-                // Clicked outside the sidebar and hamburger
-                body.classList.toggle("active");
-                body.removeEventListener("click", bodyClickListener);
-            };
-            body.addEventListener("click", bodyClickListener);
-        });
         hamburger.addEventListener("click", function () {
             document.querySelector("body").classList.toggle("active");
-            var body = document.querySelector("body");
         });
 
         sidebarLinks.forEach(function (link) {
@@ -233,6 +215,17 @@
                 // Add the "active" class to the clicked sidebar menu item
                 this.classList.add("active");
             });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var sidebar = document.querySelector(".sidebar");
+            var body = document.querySelector("body");
+
+            var bodyClickListener = function (event) {
+                // Clicked outside the sidebar and hamburger
+                body.classList.toggle("active");
+                body.removeEventListener("click", bodyClickListener);
+            };
+            body.addEventListener("click", bodyClickListener);
         });
     </script>
 </body>

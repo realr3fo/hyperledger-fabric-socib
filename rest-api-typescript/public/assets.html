@@ -1,0 +1,480 @@
+<!--Design by foolishdeveloper.com-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+        * {
+            list-style: none;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+        }
+
+        .wrapper .sidebar {
+            background: rgb(5, 68, 104);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            padding: 20px 0;
+            transition: all 0.5s ease;
+        }
+
+        .wrapper .sidebar .profile {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .wrapper .sidebar .profile img {
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+        .wrapper .sidebar .profile h3 {
+            color: #ffffff;
+            margin: 10px 0 5px;
+        }
+
+        .wrapper .sidebar .profile p {
+            color: rgb(206, 240, 253);
+            font-size: 14px;
+        }
+
+        .wrapper .sidebar ul li a {
+            display: block;
+            padding: 13px 30px;
+            border-bottom: 1px solid #10558d;
+            color: rgb(241, 237, 237);
+            font-size: 16px;
+            position: relative;
+        }
+
+        .wrapper .sidebar ul li a .icon {
+            color: #dee4ec;
+            width: 30px;
+            display: inline-block;
+        }
+
+        .wrapper .sidebar ul li a:hover,
+        .wrapper .sidebar ul li a.active {
+            color: #0c7db1;
+            background: white;
+            border-right: 2px solid rgb(5, 68, 104);
+        }
+
+        .wrapper .sidebar ul li a:hover .icon,
+        .wrapper .sidebar ul li a.active .icon {
+            color: #0c7db1;
+        }
+
+        .wrapper .sidebar ul li a:hover:before,
+        .wrapper .sidebar ul li a.active:before {
+            display: block;
+        }
+
+        .wrapper .section {
+            width: calc(100% - 240px);
+            margin-left: 240px;
+            transition: all 0.5s ease;
+        }
+
+        .wrapper .section .top_navbar {
+            background: rgb(7, 105, 185);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .wrapper .section .top_navbar .hamburger a {
+            font-size: 28px;
+            color: #f4fbff;
+        }
+
+        .wrapper .section .top_navbar .hamburger a:hover {
+            color: #a2ecff;
+        }
+
+        .wrapper .section .container {
+            margin: 30px;
+            background: #fff;
+            padding: 50px;
+            line-height: 28px;
+        }
+
+        body.active .wrapper .sidebar {
+            left: -240px;
+        }
+
+        body.active .wrapper .section {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #table-body tr:hover {
+            background-color: #ddd;
+        }
+
+        @keyframes hashAnimation {
+            0% {
+                background-color: transparent;
+            }
+
+            50% {
+                background-color: rgb(107, 166, 216);
+            }
+
+            100% {
+                background-color: transparent;
+            }
+        }
+
+        .hash-cell {
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: 1;
+            cursor: pointer;
+        }
+
+        .hash-cell:hover {
+            animation-name: hashAnimation;
+        }
+
+        .table-head {
+            background-color: rgb(7, 105, 185);
+            color: white;
+        }
+
+        .view-button {
+            background-color: rgb(7, 105, 185);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 16px;
+            margin: 2px 2px;
+            opacity: 0.6;
+            transition: 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .view-button:hover {
+            opacity: 1
+        }
+
+        @keyframes dropdown {
+            0% {
+                top: -10px;
+                /* Starting position above the viewport */
+                opacity: 0;
+                /* Start with opacity 0 to gradually fade in */
+            }
+
+            100% {
+                top: 5px;
+                /* Final position at the top of the viewport */
+                opacity: 1;
+                /* Fully visible */
+            }
+        }
+
+        .popup {
+            position: fixed;
+            top: 5px;
+            /* Initial position above the viewport */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: orange;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            animation-name: dropdown;
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="section">
+            <div class="top_navbar">
+                <div class="hamburger">
+                    <a>
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+                <h1 style="text-align: center;">Assets List</h1>
+                <br />
+                <br />
+                <table>
+                    <thead class="table-head">
+                        <tr>
+                            <th>ID</th>
+                            <th>File Name</th>
+                            <th>File Hash</th>
+                            <th>Owner</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+                <br />
+                <p>Number of assets: <span id="data-length"></span></p>
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a data-content="home" onclick="redirectTo('/')">
+                        <span class="icon"><i class="fas fa-home"></i></span>
+                        <span class="item">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active" onclick="redirectTo('/assets')">
+                        <span class="icon"><i class="fas fa-database"></i></span>
+                        <span class="item">Assets List</span>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="redirectTo('/asset-management')">
+                        <span class="icon"><i class="fas fa-user-shield"></i></span>
+                        <span class="item">Manage Assets</span>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="redirectTo('/about')">
+                        <span class="icon"><i class="fas fa-user-friends"></i></span>
+                        <span class="item">About SOCIB</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const copyToClipboard = (text) => {
+            // Create a temporary textarea element
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+
+            // Append the textarea to the document
+            document.body.appendChild(textarea);
+
+            // Select the text in the textarea
+            textarea.select();
+
+            // Copy the selected text to the clipboard
+            document.execCommand('copy');
+
+            // Remove the temporary textarea
+            document.body.removeChild(textarea);
+        };
+        // Function to create a popup element at the top of the screen
+        const createPopup = (text) => {
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.textContent = 'Copied to clipboard';
+            document.body.appendChild(popup);
+
+            // Automatically close the popup after 2 seconds
+            setTimeout(() => {
+                document.body.removeChild(popup);
+            }, 3000);
+        };
+
+        const apiKey = "{{API_KEY}}";
+        const url = "http://localhost:3000/api/assets";
+
+        fetch(url, {
+            headers: {
+                "X-Api-Key": apiKey,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Process the response data and populate the table
+                const tableBody = document.getElementById("table-body");
+                const dataLengthSpan = document.getElementById("data-length");
+
+                // Update the data length display
+                dataLengthSpan.textContent = data.length;
+                if (data.length === 0) {
+                    // Display a message for empty data
+                    const row = document.createElement("tr");
+                    const emptyCell = document.createElement("td");
+                    emptyCell.setAttribute("colspan", "5");
+                    emptyCell.textContent = "No data available.";
+                    emptyCell.style.textAlign = "center";
+                    row.appendChild(emptyCell);
+                    tableBody.appendChild(row);
+                } else {
+                    data.forEach((item) => {
+                        const row = document.createElement("tr");
+
+                        // ID
+                        const idCell = document.createElement("td");
+                        idCell.setAttribute("data-hash", item.ID);
+                        idCell.setAttribute("class", "hash-cell");
+                        idCell.textContent = item.ID.substring(0, 5) + "-" + item.ID.substring(59);
+                        row.appendChild(idCell);
+
+                        // File Name
+                        const fileNameCell = document.createElement("td");
+                        fileNameCell.textContent = item.FileName;
+                        row.appendChild(fileNameCell);
+
+                        // File Hash
+                        const fileHashCell = document.createElement("td");
+                        fileHashCell.textContent = item.FileHash;
+                        row.appendChild(fileHashCell);
+
+                        // Owner
+                        const ownerCell = document.createElement("td");
+                        ownerCell.textContent = item.Owner;
+                        row.appendChild(ownerCell);
+
+                        // Detail
+                        const detailCell = document.createElement("td");
+                        // Create a button element
+                        const viewButton = document.createElement("button");
+                        viewButton.textContent = "View";
+                        // Add a click event listener to the button
+                        viewButton.addEventListener("click", () => {
+                            const assetId = item.ID;
+                            const url = `/assets/detail/${item.ID}`;
+                            console.log(url)
+                            redirectTo(url)
+                        });
+                        // Add CSS class to the button
+                        viewButton.classList.add("view-button");
+                        console.log(viewButton)
+
+                        // Append the button to the detail cell
+                        detailCell.appendChild(viewButton);
+
+                        // Append the detail cell to the row
+                        row.appendChild(detailCell);
+
+                        // Append the row to the table body
+                        tableBody.appendChild(row);
+                    });
+                    const hashCells = document.querySelectorAll('.hash-cell');
+                    hashCells.forEach(cell => {
+                        const fullHash = cell.getAttribute('data-hash');
+                        cell.addEventListener('mouseover', () => {
+                            cell.setAttribute('data-original-hash', cell.textContent);
+                            cell.textContent = fullHash;
+                        });
+                        cell.addEventListener('mouseout', () => {
+                            const originalHash = cell.getAttribute('data-original-hash');
+                            cell.textContent = originalHash;
+                        });
+                        cell.addEventListener('click', () => {
+                            copyToClipboard(fullHash);
+                            createPopup('Copied to clipboard');
+                        });
+                    });
+                }
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                console.error(error);
+            });
+
+        function redirectTo(link) {
+            window.location.href = link;
+        }
+        var hamburger = document.querySelector(".hamburger");
+        var sidebarLinks = document.querySelectorAll(".sidebar ul li a");
+        var contentSections = document.querySelectorAll(".section .container > div");
+
+        hamburger.addEventListener("click", function () {
+            document.querySelector("body").classList.toggle("active");
+        });
+
+
+        sidebarLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                var contentId = this.getAttribute("data-content");
+                contentSections.forEach(function (section) {
+                    section.style.display = "none";
+                });
+                document.getElementById("content-" + contentId).style.display = "block";
+            });
+        });
+        var sidebarItems = document.querySelectorAll(".sidebar ul li a");
+
+        sidebarItems.forEach(function (item) {
+            item.addEventListener("click", function () {
+                // Remove the "active" class from all sidebar menu items
+                sidebarItems.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                // Add the "active" class to the clicked sidebar menu item
+                this.classList.add("active");
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var sidebar = document.querySelector(".sidebar");
+            var body = document.querySelector("body");
+
+            var bodyClickListener = function (event) {
+                // Clicked outside the sidebar and hamburger
+                body.classList.toggle("active");
+                body.removeEventListener("click", bodyClickListener);
+            };
+            body.addEventListener("click", bodyClickListener);
+        });
+    </script>
+</body>
+
+</html>

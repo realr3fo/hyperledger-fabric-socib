@@ -1,5 +1,3 @@
-<!--Design by foolishdeveloper.com-->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,14 +34,28 @@
             transition: all 0.5s ease;
         }
 
+        .wrapper .sidebar .profile {
+            margin-bottom: 30px;
+            text-align: center;
+        }
 
-        /* .wrapper .sidebar .profile img {
+        .wrapper .sidebar .profile img {
             display: block;
             width: 100px;
             height: 100px;
             border-radius: 50%;
             margin: 0 auto;
-        } */
+        }
+
+        .wrapper .sidebar .profile h3 {
+            color: #ffffff;
+            margin: 10px 0 5px;
+        }
+
+        .wrapper .sidebar .profile p {
+            color: rgb(206, 240, 253);
+            font-size: 14px;
+        }
 
         .wrapper .sidebar ul li a {
             display: block;
@@ -115,24 +127,6 @@
             margin-left: 0;
             width: 100%;
         }
-
-        .profile {
-            width: 100%;
-            /* Set the width of the div */
-            height: auto;
-            /* Let the height adjust automatically based on the image */
-        }
-
-        .profile img {
-            max-width: 100%;
-            /* Make the image scale down to fit within the div */
-            height: auto;
-            /* Let the height adjust automatically based on the image */
-            display: block;
-            /* Remove any extra space below the image */
-            margin: 0 auto;
-            /* Center the image horizontally */
-        }
     </style>
 </head>
 
@@ -147,39 +141,68 @@
                 </div>
             </div>
             <div class="container">
-                <div id="content-home" class="content-section">
+                <div id="content-about-socib" class="content-section" style="text-align: justify;">
+                    <h1>About SOCIB</h1>
                     <br />
-                    <h1 style="text-align: center;">SOCIB FabricTrace: Dataset Traceability with Hyperledger Fabric</h1>
-                    <div class="profile" style="text-align: center; margin-top: 100px;">
-                        <img style="width: 80%; height: auto;" src="home-diagram.svg" alt="Local Image">
-                        <br />
-                        <p>Powered by SOCIB</p>
-                    </div>
+                    The Balearic Islands Coastal Observing and Forecasting System (SOCIB), created in 2007, is a
+                    Singular Scientific and Technical Infrastructure (ICTS) since 2014. The ICTS SOCIB is a public
+                    consortium between the Ministry of Science and Innovation, the Regional Government of the Balearic
+                    Islands, and the Spanish National Research Council (CSIC). Located in Parc Bit, Palma, it has a
+                    multidisciplinary team working with a shared goal: to advance knowledge, understanding, and
+                    sustainable management of the global ocean and the Mediterranean Sea. To this end, the ICTS SOCIB
+                    operates an observation and forecasting system that continuously monitors the western Mediterranean,
+                    collecting data through multiple platforms, including high-frequency coastal radars, integral beach
+                    monitoring systems, autonomous underwater gliders, lagrangian observation platforms (ARGO profilers
+                    and surface drifting buoys), oceanographic buoys, meteorological and sea level stations, and the
+                    Research Vessel (R/V SOCIB). The ocean data collected, of strategic value in marine research, can be
+                    consulted in real-time and in open access through the institutional repository of the ICTS SOCIB.
+                    The forecasting system has three predictive models: (i) the Western Mediterranean OPerational
+                    forecasting system (WMOP); ii) the Autonomous Swell Prediction System (SAPO); and, iii) the Balearic
+                    RIssaga Forecasting System (BRIFS). Moreover, SOCIB implements digital applications and solutions to
+                    promote the transfer of knowledge, the marine and coastal management based on scientific evidence,
+                    and offers expert consultancy services in environmental management and operational oceanography. It
+                    also works to promote citizens' knowledge of the ocean (Ocean Literacy) through innovative
+                    activities and resources for all audiences.
+                    <br />
+                    <br />
+                    In this context, the ICTS SOCIB's general objective is similar to that of the leading international
+                    marine research infrastructures, by providing access to marine data and providing scientific
+                    facilities for the scientific, technological, and industrial communities. Link to its mission, the
+                    specific objectives of SOCIB are: i) operate an observing and forecasting system that provides
+                    metocean data of proven quality, in real-time and in open access; ii) promote scientific research
+                    and operational oceanography in order to generate knowledge on marine ecosystem variability, ocean
+                    health, and global change; iii) transfer knowledge in marine sciences and technologies through the
+                    development of applications, digital solutions and services aimed at strategic sectors; training in
+                    oceanography; and the promotion of scientific culture about the ocean.
+                    <br />
+                    <br />
+                    This project is implemented by Refo Ilmiya Akbar in accordance to TFM at Universitet de les Illes
+                    Balears
                 </div>
             </div>
         </div>
         <div class="sidebar">
             <ul>
                 <li>
-                    <a class="active" data-content="home" onclick="redirectTo('/')">
+                    <a data-content="home" onclick="redirectTo('/')">
                         <span class="icon"><i class="fas fa-home"></i></span>
                         <span class="item">Home</span>
                     </a>
                 </li>
                 <li>
-                    <a onclick="redirectTo('/assets')">
+                    <a data-content="assets" onclick="redirectTo('/assets')">
                         <span class="icon"><i class="fas fa-database"></i></span>
                         <span class="item">Assets List</span>
                     </a>
                 </li>
                 <li>
-                    <a onclick="redirectTo('/asset-management')">
+                    <a data-content="asset-management" onclick="redirectTo('/asset-management')">
                         <span class="icon"><i class="fas fa-user-shield"></i></span>
                         <span class="item">Manage Assets</span>
                     </a>
                 </li>
                 <li>
-                    <a onclick="redirectTo('/about')">
+                    <a odata-content="about-socib" class="active" onclick="redirectTo('/about')">
                         <span class="icon"><i class="fas fa-user-friends"></i></span>
                         <span class="item">About SOCIB</span>
                     </a>
@@ -195,20 +218,8 @@
         var sidebarLinks = document.querySelectorAll(".sidebar ul li a");
         var contentSections = document.querySelectorAll(".section .container > div");
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var sidebar = document.querySelector(".sidebar");
-            var body = document.querySelector("body");
-
-            var bodyClickListener = function (event) {
-                // Clicked outside the sidebar and hamburger
-                body.classList.toggle("active");
-                body.removeEventListener("click", bodyClickListener);
-            };
-            body.addEventListener("click", bodyClickListener);
-        });
         hamburger.addEventListener("click", function () {
             document.querySelector("body").classList.toggle("active");
-            var body = document.querySelector("body");
         });
 
         sidebarLinks.forEach(function (link) {
@@ -234,6 +245,18 @@
                 this.classList.add("active");
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+            var sidebar = document.querySelector(".sidebar");
+            var body = document.querySelector("body");
+
+            var bodyClickListener = function (event) {
+                // Clicked outside the sidebar and hamburger
+                body.classList.toggle("active");
+                body.removeEventListener("click", bodyClickListener);
+            };
+            body.addEventListener("click", bodyClickListener);
+        });
+
     </script>
 </body>
 
