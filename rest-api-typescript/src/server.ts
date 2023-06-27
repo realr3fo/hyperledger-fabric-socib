@@ -76,7 +76,13 @@ export const createServer = async (): Promise<Application> => {
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
   });
   app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'about.html'));
+    const htmlFilePath = path.join(publicPath, 'about.html');
+    fs.readFile(htmlFilePath, 'utf8', (err, html) => {
+      if (err) {
+        return res.status(500).send('Error reading HTML file');
+      }
+      res.send(html);
+    });
   });
   app.get('/assets', (req, res) => {
     const htmlFilePath = path.join(publicPath, 'assets.html');

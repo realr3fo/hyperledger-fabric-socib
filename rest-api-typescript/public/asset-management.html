@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOCIB FabricTrace</title>
+    <link rel="icon" type="image/x-icon" href="socib-logo.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
@@ -130,7 +131,8 @@
             width: 100%;
         }
 
-        input[type=text] {
+        input[type=text],
+        input[type=password] {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -241,7 +243,7 @@
                             <p id="create-asset-filename"></p>
 
                             <label for="create-asset-creds">SOCIB Credentials</label>
-                            <input required type="text" id="create-asset-creds" name="credentials"
+                            <input required type="password" id="create-asset-creds" name="credentials"
                                 placeholder="Credentials..">
 
                             <input style="background-color: green;" type="submit" value="Create Asset">
@@ -255,7 +257,7 @@
                             <input required type="text" id="delete-asset-id" name="asset-id" placeholder="Asset ID..">
 
                             <label for="delete-asset-creds">SOCIB Credentials</label>
-                            <input required type="text" id="delete-asset-creds" name="credentials"
+                            <input required type="password" id="delete-asset-creds" name="credentials"
                                 placeholder="Credentials..">
 
                             <input style="background-color: rgb(236, 15, 15);" type="submit" value="Delete Asset">
